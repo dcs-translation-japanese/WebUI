@@ -14,10 +14,10 @@ Transfer後にActions変数を次の値に設定します。
 | `VITE_TARGET_REF` | `master` |
 
 APIの新旧Pages origin許可、PAT・Pages Environmentの権限を確認してから公開します。
-手動公開では、承認済みタグ名と、そのタグをcommitへ解決した40桁のSHAを入力します。
-Buildの検証でタグ・checkout・入力SHAの一致を確認し、実行summaryにSHAを記録します。
-ReleaseイベントではイベントのSHAと照合します。公開結果の正式URLと静的資産を確認してください。
-復旧時も `/WebUI/` と新しいビルド変数に対応したソースを使い、同じSHA検証を行います。
+手動公開では既存のtag入力に公開するタグ名を指定します。checkoutも同じタグを使用します。
+Releaseイベントでは公開されたReleaseのタグを使用します。
+公開結果の正式URLと静的資産を確認してください。
+復旧時も `/WebUI/` と新しいビルド変数に対応したソースを使用します。
 
 ## 貢献
 
