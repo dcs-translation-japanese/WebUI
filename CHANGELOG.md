@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.3](https://github.com/dcs-translation-japanese/WebUI/compare/v3.0.2...v3.0.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* prevent implicit root favicon request on Pages ([#226](https://github.com/dcs-translation-japanese/WebUI/issues/226)) ([e79d1b2](https://github.com/dcs-translation-japanese/WebUI/commit/e79d1b26ebc0b1b2dd3dae227fe853ab04dffbe8))
+
 ## [3.0.2](https://github.com/dcs-translation-japanese/WebUI/compare/v3.0.1...v3.0.2) (2026-10-29)
 
 
