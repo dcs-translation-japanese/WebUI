@@ -88,9 +88,9 @@ div.pt-2
   )
     template(#label)
       span
-        | 5kdn/DCS-Translation-Japanese リポジトリの
+        | dcs-translation-japanese/translations リポジトリの
         a(
-          href="https://github.com/5kdn/DCS-Translation-Japanese/blob/master/DISTRIBUTION_POLICY.md"
+          href="https://github.com/dcs-translation-japanese/translations/blob/master/DISTRIBUTION_POLICY.md"
           target="_blank"
           rel="noopener noreferrer"
           @click.stop

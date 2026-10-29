@@ -18,6 +18,8 @@ on:
       - 'pnpm-lock.yaml'
       - 'playwright.config.*'
       - 'vitest.config.*'
+      - 'vite.config.*'
+      - '.github/workflows/**'
 
 concurrency:
   group: ci-${{ github.event.pull_request.head.repo.full_name }}-${{ github.event.pull_request.head.ref }}
