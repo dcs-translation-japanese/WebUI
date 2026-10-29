@@ -16,6 +16,10 @@ on:
         description: 'デプロイ対象のタグを入力してください'
         required: true
         type: string
+      expected_sha:
+        description: '承認済みタグのcommit SHA（40桁）'
+        required: true
+        type: string
 
 env:
   NODE_VERSION: '24'
@@ -37,16 +41,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout release tag
         uses: actions/checkout@v7
+        with:
+          ref: refs/tags/${{ inputs.tag || github.event.release.tag_name }}
+          persist-credentials: false
 
-      - name: Set release tag
+      - name: Verify release commit
+        env:
+          DEPLOY_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+          EXPECTED_SHA: ${{ inputs.expected_sha || github.sha }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "RELEASE_TAG=${{ inputs.tag }}" >> "$GITHUB_ENV"
-          else
-            echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> "$GITHUB_ENV"
-          fi
+          set -euo pipefail
+          git check-ref-format "refs/tags/$DEPLOY_TAG"
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          tag_sha="$(git rev-parse --verify "refs/tags/$DEPLOY_TAG^{commit}")"
+          checkout_sha="$(git rev-parse HEAD)"
+          test "$checkout_sha" = "$tag_sha"
+          test "$checkout_sha" = "$EXPECTED_SHA"
+          printf 'RELEASE_TAG=%s\n' "$DEPLOY_TAG" >> "$GITHUB_ENV"
+          printf 'Tag: %s\nCommit: %s\n' "$DEPLOY_TAG" "$checkout_sha" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6.1.0

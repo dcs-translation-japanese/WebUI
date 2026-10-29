@@ -723,7 +723,7 @@ div.upload-panel
           | &nbsp;フォルダー自体である必要があります。
         li: p
           | フォルダー構成は
-          a(href="https://github.com/5kdn/DCS-Translation-Japanese" target="_blank" rel="noopener noreferrer" @click.stop) 5kdn/DCS-Translation-Japanese
+          a(href="https://github.com/dcs-translation-japanese/translations" target="_blank" rel="noopener noreferrer" @click.stop) dcs-translation-japanese/translations
           | リポジトリに合わせて作成してください。
         li: p 1回のアップロードには、1つの機体、DLCキャンペーン、ユーザーミッション、またはユーザーキャンペーンだけを含めてください。
         li

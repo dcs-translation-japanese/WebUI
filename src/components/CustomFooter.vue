@@ -27,8 +27,8 @@ v-footer.text-center.d-flex.flex-column.ga-2.py-4(color="primary")
 
   v-container#footer-content.d-flex.flex-row
     v-container#footer-us.d-flex.flex-column.ga-2
-      p: a.footer-link(href="https://github.com/5kdn/DCS-Translation-Japanese" target='_blank') DCS-Translation-Japanese
-      p: a.footer-link(href="https://github.com/5kdn/DCS-Translation-Japanese-Downloader" target='_blank') source code
+      p: a.footer-link(href="https://github.com/dcs-translation-japanese/translations" target='_blank') DCS-Translation-Japanese
+      p: a.footer-link(href="https://github.com/dcs-translation-japanese/WebUI" target='_blank') source code
 
     v-container#footer-other
       v-dialog(v-model="_dialog")

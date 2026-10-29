@@ -338,7 +338,7 @@ const _handleMizCloseConfirm = (): void => {
  * @summary デスクトップアプリのダウンロードページへ別タブで遷移する。
  */
 const _browseToDesktopAppDownloadPage = (): void => {
-  const url = 'https://github.com/5kdn/DCS-Translation-Tool/releases/latest';
+  const url = 'https://github.com/dcs-translation-japanese/DCS-Translation-Tool/releases/latest';
   window.open(url, '_blank', 'noopener,noreferrer');
 };
 
@@ -378,8 +378,8 @@ v-app
       v-container#announce-area
         v-container.bg-surface.rounded
           v-container#about-this-page.text-center
-            p.text-balance 本ページは、Eagle Dynamics社の Digital Combat Simulator World のミッション・キャンペーンを日本語化する<strong>非公式</strong>プロジェクト <a href="https://github.com/5kdn/DCS-Translation-Japanese" target="_blank" rel="noopener noreferrer">5kdn/DCS-Translation-Japanese</a> の Web UI です。
-            p.text-balance 翻訳データの利用条件については、<a href="https://github.com/5kdn/DCS-Translation-Japanese/blob/master/DISTRIBUTION_POLICY.md" target="_blank" rel="noopener noreferrer">流通制御ポリシー</a>をご確認ください。プロジェクトの詳細はリポジトリページをご覧ください。
+            p.text-balance 本ページは、Eagle Dynamics社の Digital Combat Simulator World のミッション・キャンペーンを日本語化する<strong>非公式</strong>プロジェクト <a href="https://github.com/dcs-translation-japanese/translations" target="_blank" rel="noopener noreferrer">dcs-translation-japanese/translations</a> の Web UI です。
+            p.text-balance 翻訳データの利用条件については、<a href="https://github.com/dcs-translation-japanese/translations/blob/master/DISTRIBUTION_POLICY.md" target="_blank" rel="noopener noreferrer">流通制御ポリシー</a>をご確認ください。プロジェクトの詳細はリポジトリページをご覧ください。
 
           v-container#announce-desktop-app.text-center
             p.text-balance 翻訳データをmizファイルに追加までを自動化するWindowsデスクトップアプリがダウンロード可能です。

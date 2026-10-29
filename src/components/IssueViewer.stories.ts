@@ -84,7 +84,7 @@ export const Linkify = meta.story({
   beforeEach: createIssueViewerMswBeforeEach([
     createIssue({
       title: 'リンク付き Issue',
-      body: '詳細は [GitHub](https://github.com/5kdn/DCS-Translation-Japanese) を参照してください。',
+      body: '詳細は [GitHub](https://github.com/dcs-translation-japanese/translations) を参照してください。',
     }),
   ]),
 });

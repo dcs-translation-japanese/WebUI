@@ -1,6 +1,23 @@
 # DCS Translation Japanese Downloader
 
-[DCS-Translation-Japanese リポジトリ](https://github.com/5kdn/DCS-Translation-Japanese)のファイルをダウンロードする [GitHub Pages](https://5kdn.github.io/DCS-Translation-Japanese-Downloader/) を提供する
+[DCS-Translation-Japanese リポジトリ](https://github.com/dcs-translation-japanese/translations)のファイルをダウンロードする [GitHub Pages](https://dcs-translation-japanese.github.io/WebUI/) を提供する
+
+## 公開手順
+
+Transfer後にActions変数を次の値に設定します。
+
+| 変数 | 値 |
+| --- | --- |
+| `API_BASE_URL` | `https://dcs-translation-japanese-cloudflare-worker.dcs-translation-japanese.workers.dev` |
+| `VITE_TARGET_OWNER` | `dcs-translation-japanese` |
+| `VITE_TARGET_REPO` | `translations` |
+| `VITE_TARGET_REF` | `master` |
+
+APIの新旧Pages origin許可、PAT・Pages Environmentの権限を確認してから公開します。
+手動公開では、承認済みタグ名と、そのタグをcommitへ解決した40桁のSHAを入力します。
+Buildの検証でタグ・checkout・入力SHAの一致を確認し、実行summaryにSHAを記録します。
+ReleaseイベントではイベントのSHAと照合します。公開結果の正式URLと静的資産を確認してください。
+復旧時も `/WebUI/` と新しいビルド変数に対応したソースを使い、同じSHA検証を行います。
 
 ## 貢献
 
