@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/dcs-translation-japanese/WebUI/compare/v3.0.1...v3.0.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* WebUI移管用の配信パス・リンクと公開SHA検証を追加する ([#221](https://github.com/dcs-translation-japanese/WebUI/issues/221)) ([07b89e0](https://github.com/dcs-translation-japanese/WebUI/commit/07b89e061912f108f7aaee04b0343a9e7c9fc799))
+
 ## [3.0.1](https://github.com/5kdn/DCS-Translation-Japanese-Downloader/compare/v3.0.0...v3.0.1) (2026-10-22)
 
 
