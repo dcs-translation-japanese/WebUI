@@ -201,23 +201,23 @@ importers:
         specifier: ^7.4.47
         version: 7.4.47
       '@microsoft/kiota-abstractions':
-        specifier: ^1.0.0-preview.112
-        version: 1.0.0-preview.112
+        specifier: ^1.0.0-preview.113
+        version: 1.0.0-preview.113
       '@microsoft/kiota-http-fetchlibrary':
-        specifier: ^1.0.0-preview.112
-        version: 1.0.0-preview.112
+        specifier: ^1.0.0-preview.113
+        version: 1.0.0-preview.113
       '@microsoft/kiota-serialization-form':
-        specifier: ^1.0.0-preview.112
-        version: 1.0.0-preview.112
+        specifier: ^1.0.0-preview.113
+        version: 1.0.0-preview.113
       '@microsoft/kiota-serialization-json':
-        specifier: ^1.0.0-preview.112
-        version: 1.0.0-preview.112
+        specifier: ^1.0.0-preview.113
+        version: 1.0.0-preview.113
       '@microsoft/kiota-serialization-multipart':
-        specifier: ^1.0.0-preview.112
-        version: 1.0.0-preview.112
+        specifier: ^1.0.0-preview.113
+        version: 1.0.0-preview.113
       '@microsoft/kiota-serialization-text':
-        specifier: ^1.0.0-preview.112
-        version: 1.0.0-preview.112
+        specifier: ^1.0.0-preview.113
+        version: 1.0.0-preview.113
       dompurify:
         specifier: ^3.4.17
         version: 3.4.17
@@ -718,23 +718,23 @@ packages:
       '@types/react': '>=16'
       react: '>=16'
 
-  '@microsoft/kiota-abstractions@1.0.0-preview.112':
-    resolution: {integrity: sha512-cStVzXo8/fWe+duDbU5imvdFTPkp0zOjy5Tvicfc7eRzx9alqmud5bBDtGtumHm3RpCOZNNs0x3V1wsjGkyNWA==}
+  '@microsoft/kiota-abstractions@1.0.0-preview.113':
+    resolution: {integrity: sha512-q/ap7b16LGTQeBtdI8eXAJ/0u/RBiEmanYJregrIELsr6VQ0xzbwchWx0Mw7HU21I2IIkytfg44sSZ/S81drUg==}
 
-  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.112':
-    resolution: {integrity: sha512-wL9bhSL9YI4IFV6KKrDaEG7L96n6ZqxDi7ZAvWMOV5YUqQ4t11v6xMppYr6zoUTlc425rZ7qf8rJVQR79iADCQ==}
+  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.113':
+    resolution: {integrity: sha512-hreP3M2/XlRgCjUzOlUqC1GqORTik5cVQcJhyjP4nMp6gKGs9831h0kdp7QBuVLRLjfEt47kqIu3rtJFqfLblA==}
 
-  '@microsoft/kiota-serialization-form@1.0.0-preview.112':
-    resolution: {integrity: sha512-RT+1YyJHeLoPLLh3nt/+56YABjSa6t1J495bfax/ajlDRtNu0piUDvTDitHVFwJ+bxWMi6QgSJaNpLrhUKTZ3A==}
+  '@microsoft/kiota-serialization-form@1.0.0-preview.113':
+    resolution: {integrity: sha512-hRRX5sNJlQyZzlZ9DPVC2D6Qu5Ldmtf3IeQNVlQADS0XppjGpz8Qr2pk9s5QuNyb8KPHxKEgXd13x8yCmFrjbw==}
 
-  '@microsoft/kiota-serialization-json@1.0.0-preview.112':
-    resolution: {integrity: sha512-+nGI8DPbkabhJD/vkDtmnO6mzrIfaToz9IzUejjaWYLfUt5ma9LUrbdHj4Wt1rFyAWvg/4E9LM7bcDsRRnq7OA==}
+  '@microsoft/kiota-serialization-json@1.0.0-preview.113':
+    resolution: {integrity: sha512-2kaJvHZhHWGQtImpUvNr8r24pI2vwpLgIqvv2ZGc8dtMMBcX+2/2oFWWyYFUuVnrJAeDFFhzqyxiegtqQ0lUCQ==}
 
-  '@microsoft/kiota-serialization-multipart@1.0.0-preview.112':
-    resolution: {integrity: sha512-atJvtLvsccZTzxuTRuEhMxaEgMhj8Anl60mGMD8Axn90wdwJw5OwXrSbuGSVw01oun2Ug8Iu6opBzwvhEMgO5g==}
+  '@microsoft/kiota-serialization-multipart@1.0.0-preview.113':
+    resolution: {integrity: sha512-HVlKJ90ImEESKgUGj8pWcPwSQCVBZNDFBzcBeW7x0c9MRGY0SZYHjnNyefZSUrc52IBkgF+twGZoGOGWjdJ7tQ==}
 
-  '@microsoft/kiota-serialization-text@1.0.0-preview.112':
-    resolution: {integrity: sha512-iQY3PgNlE46omlQPriXntJveyJh/7aVc0oFj28rMzboc/t8dhr4JCdl81SZEi0bUuru4zBBGUSwxTdaqPzWR1g==}
+  '@microsoft/kiota-serialization-text@1.0.0-preview.113':
+    resolution: {integrity: sha512-xVf9LxEYC88JZmjX5nj4pUbQtuXtMi6d/JME70usjFxRktTFOW8xks6uELw4hKw1d/p5jSpG7K4ga4McyzQBXw==}
 
   '@msw/url@0.1.2':
     resolution: {integrity: sha512-DdeBLQxQ+ZrtmwEmaj7GQ7lbzPCgbbbyAqOz/I4ulo68hwBpfdNvQJ5bmihJUkAAKOeCmqCIG3OFZGosqFN4mA==}
@@ -2925,6 +2925,9 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  tslib@2.9.1:
+    resolution: {integrity: sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==}
+
   tuf-js@4.1.0:
     resolution: {integrity: sha512-50QV99kCKH5P/Vs4E2Gzp7BopNV+KzTXqWeaxrfu5IQJBOULRsTIS9seSsOVT8ZnGXzCyx55nYWAi4qJzpZKEQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
@@ -3504,38 +3507,38 @@ snapshots:
       '@types/react': 19.2.15
       react: 19.3.1
 
-  '@microsoft/kiota-abstractions@1.0.0-preview.112':
+  '@microsoft/kiota-abstractions@1.0.0-preview.113':
     dependencies:
       '@opentelemetry/api': 1.10.0
       '@std-uritemplate/std-uritemplate': 2.0.12
       tinyduration: 3.4.1
-      tslib: 2.8.1
+      tslib: 2.9.1
 
-  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.112':
+  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.113':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.112
+      '@microsoft/kiota-abstractions': 1.0.0-preview.113
       '@opentelemetry/api': 1.10.0
-      tslib: 2.8.1
+      tslib: 2.9.1
 
-  '@microsoft/kiota-serialization-form@1.0.0-preview.112':
+  '@microsoft/kiota-serialization-form@1.0.0-preview.113':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.112
-      tslib: 2.8.1
+      '@microsoft/kiota-abstractions': 1.0.0-preview.113
+      tslib: 2.9.1
 
-  '@microsoft/kiota-serialization-json@1.0.0-preview.112':
+  '@microsoft/kiota-serialization-json@1.0.0-preview.113':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.112
-      tslib: 2.8.1
+      '@microsoft/kiota-abstractions': 1.0.0-preview.113
+      tslib: 2.9.1
 
-  '@microsoft/kiota-serialization-multipart@1.0.0-preview.112':
+  '@microsoft/kiota-serialization-multipart@1.0.0-preview.113':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.112
-      tslib: 2.8.1
+      '@microsoft/kiota-abstractions': 1.0.0-preview.113
+      tslib: 2.9.1
 
-  '@microsoft/kiota-serialization-text@1.0.0-preview.112':
+  '@microsoft/kiota-serialization-text@1.0.0-preview.113':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.112
-      tslib: 2.8.1
+      '@microsoft/kiota-abstractions': 1.0.0-preview.113
+      tslib: 2.9.1
 
   '@msw/url@0.1.2': {}
 
@@ -5743,6 +5746,8 @@ snapshots:
   ts-map@1.0.3: {}
 
   tslib@2.8.1: {}
+
+  tslib@2.9.1: {}
 
   tuf-js@4.1.0(supports-color@7.2.0):
     dependencies:
