@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/dcs-translation-japanese/WebUI/compare/v3.1.0...v3.2.0) (2026-11-17)
+
+
+### Features
+
+* **download:** POST /v2/filesでダウンロード対象を一括取得する ([#251](https://github.com/dcs-translation-japanese/WebUI/issues/251)) ([3fa52d5](https://github.com/dcs-translation-japanese/WebUI/commit/3fa52d5e0234d479fe466319524255504bf2bfde)), closes [#250](https://github.com/dcs-translation-japanese/WebUI/issues/250)
+
 ## [3.1.0](https://github.com/dcs-translation-japanese/WebUI/compare/v3.0.3...v3.1.0) (2026-11-11)
 
 
