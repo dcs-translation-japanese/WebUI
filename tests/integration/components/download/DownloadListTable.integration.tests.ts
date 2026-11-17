@@ -290,6 +290,18 @@ describe('DownloadListTable', () => {
     cleanup();
   });
 
+  it('ZIP生成に失敗した場合はエラーを通知し保存せず操作ロックを解除する', async () => {
+    createZipFromTargetsMock.mockRejectedValueOnce(new Error('download failed'));
+    const { cleanup, onError, wrapper } = await mountDownloadListTable();
+    await getButtonByAriaLabel(wrapper, 'F-16C のZIP をダウンロードする').trigger('click');
+    await flushComponent();
+    expect(onError).toHaveBeenCalledOnce();
+    expect(createObjectUrlSpy).not.toHaveBeenCalled();
+    expect(anchorClickSpy).not.toHaveBeenCalled();
+    expect((getButtonByAriaLabel(wrapper, 'F-16C のZIP をダウンロードする').element as HTMLButtonElement).disabled).toBe(false);
+    cleanup();
+  });
+
   it('フォルダを見ると DL が既存導線を維持する', async () => {
     const { cleanup, onError, wrapper } = await mountDownloadListTable();
 
@@ -303,13 +315,12 @@ describe('DownloadListTable', () => {
     expect(createZipFromTargetsMock).toHaveBeenCalledWith([
       {
         path: 'DCSWorld/Mods/aircraft/F-16C/Missions/QuickStart/Cold Start.miz/l10n/JP/dictionary',
-        url: 'raw:DCSWorld/Mods/aircraft/F-16C/Missions/QuickStart/Cold Start.miz/l10n/JP/dictionary',
       },
       {
         path: 'DCSWorld/Mods/aircraft/F-16C/Missions/QuickStart/Hot Start.miz/l10n/JP/dictionary',
-        url: 'raw:DCSWorld/Mods/aircraft/F-16C/Missions/QuickStart/Hot Start.miz/l10n/JP/dictionary',
       },
     ]);
+    expect(buildGitHubRawUrlMock).not.toHaveBeenCalled();
     expect(createObjectUrlSpy).toHaveBeenCalledTimes(1);
     expect(anchorClickSpy).toHaveBeenCalledTimes(1);
     expect(revokeObjectUrlSpy).not.toHaveBeenCalled();

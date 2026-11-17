@@ -48,6 +48,24 @@ export const createTreeResponse = (options: AppApiMockOptions): JsonMockResponse
   },
 });
 
+export const createFilesResponse = (options: AppApiMockOptions, paths: string[]): JsonMockResponse => {
+  const items = new Map((options.treeItems ?? defaultTreeItems).map((item) => [item.path, item]));
+  if (paths.some((path) => !items.has(path))) return problem('File not found', 404);
+  return {
+    status: 200,
+    contentType: 'application/json',
+    body: {
+      commitSha: 'a'.repeat(40),
+      generatedAt: '2026-05-15T00:00:00.000Z',
+      files: paths.map((path) => ({
+        ...items.get(path),
+        path,
+        url: `https://raw.githubusercontent.com/dummy-owner/dummy-repo/${'a'.repeat(40)}/${path.split('/').map(encodeURIComponent).join('/')}`,
+      })),
+    },
+  };
+};
+
 export const createIssueListResponse = (options: AppApiMockOptions, state = 'all'): JsonMockResponse => ({
   status: 200,
   contentType: 'application/json',

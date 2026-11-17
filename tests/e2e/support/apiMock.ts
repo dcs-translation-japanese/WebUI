@@ -4,6 +4,7 @@ import { DEFAULT_RAW_TEXT_BY_PATH } from '../../shared/msw/fixtures/appApiFixtur
 import type { AppApiMockOptions, CapturedRequest } from '../../shared/msw/models/appApiMockTypes';
 import {
   createCapturedRequest,
+  createFilesResponse,
   createHealthResponse,
   createIssueCreateResponse,
   createIssueListResponse,
@@ -22,6 +23,14 @@ export const installAppApiMocks = async (page: Page, options: AppApiMockOptions 
 
   await page.route('**/v2/health', (route) => fulfill(route, createHealthResponse(options)));
   await page.route('**/v2/tree?*', (route) => fulfill(route, createTreeResponse(options)));
+  await page.route('**/v2/files', async (route) => {
+    if (route.request().method() !== 'POST') {
+      await route.fulfill({ status: 405 });
+      return;
+    }
+    const { paths } = route.request().postDataJSON() as { paths: string[] };
+    await fulfill(route, createFilesResponse(options, paths));
+  });
   await page.route(/\/v2\/issues(?:\?.*)?$/, async (route) => {
     const method = route.request().method();
     if (method === 'GET') {
