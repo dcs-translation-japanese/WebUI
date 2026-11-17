@@ -3,7 +3,15 @@
 import { HttpResponse, http } from 'msw';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ClientErrorCategoryObject } from '@/errors/clientErrors';
-import { type CreatePrRequest, fetchCreateIssue, fetchCreatePr, fetchIssues, fetchTree, healthCheck } from '@/lib/client';
+import {
+  type CreatePrRequest,
+  fetchCreateIssue,
+  fetchCreatePr,
+  fetchFiles,
+  fetchIssues,
+  fetchTree,
+  healthCheck,
+} from '@/lib/client';
 import { defaultTreeItems } from '../../shared/msw/fixtures/appApiFixtures';
 import { createAppApiHandlers } from '../../shared/msw/handlers/createAppApiHandlers';
 import type { CapturedRequest } from '../../shared/msw/models/appApiMockTypes';
@@ -46,6 +54,76 @@ describe('v2 client integration', () => {
   beforeEach(() => {
     vi.stubEnv('VITE_API_BASE_URL', base);
     mswServer.use(...createAppApiHandlers({ apiBaseUrl: base }));
+  });
+
+  const paths = ['DCSWorld/a.txt', 'UserMissions/b.txt'];
+  const files = paths.map((path, index) => ({
+    path,
+    url: `https://raw.githubusercontent.com/owner/repo/${snapshot.commitSha}/${path}`,
+    sha: 'b'.repeat(40),
+    size: index,
+    updatedAt: null,
+  }));
+
+  it('POSTs paths as JSON and returns URLs in requested order', async () => {
+    mswServer.use(
+      http.post(`${base}/v2/files`, async ({ request }) => {
+        expect(request.headers.get('content-type')).toContain('application/json');
+        expect(await request.json()).toEqual({ paths });
+        return HttpResponse.json({ ...snapshot, files: [...files].reverse() });
+      }),
+    );
+    await expect(fetchFiles(paths)).resolves.toEqual(files.map(({ path, url }) => ({ path, url })));
+  });
+
+  it.each([400, 404, 413, 422, 503])('rejects files API errors: %s', async (status) => {
+    mswServer.use(http.post(`${base}/v2/files`, () => problem(status)));
+    await expect(fetchFiles(paths)).rejects.toThrow();
+  });
+
+  it.each(
+    [
+      undefined,
+      [],
+      files.slice(0, 1),
+      [files[0], files[0]],
+      [files[0], { ...files[1], path: 'UserMissions/other.txt' }],
+      [files[0], { ...files[1], url: '' }],
+      [files[0], { ...files[1], url: 'javascript:alert(1)' }],
+    ].map((responseFiles) => [responseFiles]),
+  )('rejects incomplete or invalid file metadata: %j', async (responseFiles) => {
+    mswServer.use(http.post(`${base}/v2/files`, () => HttpResponse.json({ ...snapshot, files: responseFiles })));
+    await expect(fetchFiles(paths)).rejects.toThrow();
+  });
+
+  it.each(
+    [
+      [],
+      [paths[0], paths[0]],
+      [''],
+      ['DCSWorld/../escape'],
+      [`DCSWorld/${'a'.repeat(4096)}`],
+      Array.from({ length: 10001 }, (_, index) => `DCSWorld/${index}`),
+      Array.from({ length: 2000 }, (_, index) => `DCSWorld/${index}/${'a'.repeat(3000)}`),
+    ].map((requestPaths) => [requestPaths]),
+  )('rejects invalid file requests before sending (%#)', async (requestPaths) => {
+    const post = vi.fn(() => HttpResponse.json({ ...snapshot, files }));
+    mswServer.use(http.post(`${base}/v2/files`, post));
+    await expect(fetchFiles(requestPaths)).rejects.toThrow();
+    expect(post).not.toHaveBeenCalled();
+  });
+
+  it('accepts the 10000 file request limit', async () => {
+    const requestPaths = Array.from({ length: 10000 }, (_, index) => `DCSWorld/${index}`);
+    mswServer.use(
+      http.post(`${base}/v2/files`, () =>
+        HttpResponse.json({
+          ...snapshot,
+          files: requestPaths.map((path) => ({ ...files[0], path })),
+        }),
+      ),
+    );
+    await expect(fetchFiles(requestPaths)).resolves.toHaveLength(10000);
   });
 
   it('uses /v2/health and deserializes tree dates', async () => {
