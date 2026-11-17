@@ -3,6 +3,7 @@ import { extractRepositoryPathFromRawUrl } from '../../extractRepositoryPathFrom
 import type { AppApiMockOptions } from '../models/appApiMockTypes';
 import {
   createCapturedRequest,
+  createFilesResponse,
   createHealthResponse,
   createIssueCreateResponse,
   createIssueListResponse,
@@ -31,6 +32,12 @@ export const createAppApiHandlers = (options: AppApiMockOptions) => {
 
     http.get(`${apiBaseUrl}/v2/tree`, () => {
       const response = createTreeResponse(options);
+      return HttpResponse.json(response.body, { status: response.status, headers: { 'Content-Type': response.contentType } });
+    }),
+
+    http.post(`${apiBaseUrl}/v2/files`, async ({ request }) => {
+      const { paths } = (await request.json()) as { paths: string[] };
+      const response = createFilesResponse(options, paths);
       return HttpResponse.json(response.body, { status: response.status, headers: { 'Content-Type': response.contentType } });
     }),
 

@@ -253,6 +253,47 @@ export const fetchTree = async (): Promise<TreeItem[]> => {
   }
 };
 
+/** ダウンロード対象を一括取得し、要求順のパスとURLを返す。 */
+export const fetchFiles = async (paths: string[]): Promise<{ path: string; url: string }[]> => {
+  const context = 'fetchFiles';
+  try {
+    const requested = new Set(paths);
+    if (paths.length < 1 || paths.length > 10000 || requested.size !== paths.length)
+      invalidRequest(context, 'ファイルは重複なしで1〜10,000件指定してください。');
+    for (const path of paths) {
+      if (
+        !/^(DCSWorld|UserMissions)\//.test(path) ||
+        new TextEncoder().encode(path).length > 4096 ||
+        /[\\\\\p{Cc}]/u.test(path) ||
+        path.split('/').some((segment) => !segment || segment === '.' || segment === '..' || segment.startsWith('.git'))
+      )
+        invalidRequest(context, 'ファイルパスが不正です。');
+    }
+    const body = { paths };
+    if (new TextEncoder().encode(JSON.stringify(body)).length > 5 * 1024 * 1024)
+      invalidRequest(context, 'ファイル取得リクエストは5 MiB以内にしてください。');
+    const client = createClient();
+    const response = await requestWithContext(context, 'v2.files.post', () =>
+      client.files.post(body, { options: [new RetryHandlerOptions({ maxRetries: 0 })] }),
+    );
+    if (!response?.files || response.files.length !== paths.length)
+      return invalidResponse(context, 'ファイル取得結果が不足しています。');
+    const urls = new Map<string, string>();
+    for (const file of response.files) {
+      if (!file.path || !requested.has(file.path) || urls.has(file.path) || !file.url || !URL.canParse(file.url))
+        return invalidResponse(context, 'ファイル取得結果のパスまたはURLが不正です。');
+      if (!['http:', 'https:'].includes(new URL(file.url).protocol))
+        return invalidResponse(context, 'ダウンロードURLが不正です。');
+      urls.set(file.path, file.url);
+    }
+    return paths.map((path) => ({ path, url: urls.get(path) as string }));
+  } catch (error: unknown) {
+    const clientError = toClientError(context, error);
+    logClientError(clientError);
+    throw clientError;
+  }
+};
+
 export const fetchIssues = async (request: ListIssueRequest): Promise<IssueItem[]> => {
   const context = 'fetchIssues';
   try {

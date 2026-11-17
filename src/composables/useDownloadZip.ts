@@ -1,4 +1,5 @@
 import JSZip from 'jszip';
+import { fetchFiles } from '@/lib/client';
 import { fetchArrayBufferWithTimeout } from '@/lib/httpClient';
 
 const DEFAULT_MAX_CONCURRENT_DOWNLOADS = 6;
@@ -9,7 +10,6 @@ export type ConcurrencyLimitOptions = {
 
 export type Target = {
   path: string;
-  url: string;
 };
 
 /**
@@ -54,7 +54,7 @@ const runWithConcurrencyLimit = async <T>(
 
 /**
  * @summary ダウンロード対象を ZIP にまとめる。
- * @param targets ダウンロード対象の `path` と `url` を含む一覧を指定する。
+ * @param targets ダウンロード対象のリポジトリパス一覧を指定する。
  * @param options 同時実行数の上限を指定する。
  * @returns ZIP の Blob を返す。
  * @throws URL/パスが不正な場合に例外を送出する。
@@ -62,25 +62,11 @@ const runWithConcurrencyLimit = async <T>(
  */
 const createZipFromTargets = async (targets: Target[], options: ConcurrencyLimitOptions = {}): Promise<Blob> => {
   const maxConcurrentDownloads = options.maxConcurrentDownloads ?? DEFAULT_MAX_CONCURRENT_DOWNLOADS;
+  const files = await fetchFiles(targets.map(({ path }) => path));
   const zip = new JSZip();
-  await runWithConcurrencyLimit(
-    targets,
-    maxConcurrentDownloads,
-    async (target: Target[][number], index: number): Promise<void> => {
-      const url = target?.url;
-      if (typeof url !== 'string' || url.length === 0) {
-        const actual = url === null ? 'null' : typeof url;
-        throw new Error(`ダウンロードURLが不正です（targets[${index}].url: ${actual}）`);
-      }
-
-      const path = target?.path;
-      if (typeof path !== 'string' || path.length === 0) {
-        const actual = path === null ? 'null' : typeof path;
-        throw new Error(`ZIP内パスが不正です（targets[${index}].path: ${actual}）`);
-      }
-      const buffer = await fetchArrayBufferWithTimeout(url);
-      zip.file(path, buffer);
-    },
-  );
+  await runWithConcurrencyLimit(files, maxConcurrentDownloads, async ({ path, url }): Promise<void> => {
+    const buffer = await fetchArrayBufferWithTimeout(url);
+    zip.file(path, buffer);
+  });
   return zip.generateAsync({ type: 'blob' });
 };

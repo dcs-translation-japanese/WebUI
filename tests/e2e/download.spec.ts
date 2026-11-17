@@ -59,7 +59,16 @@ test.describe('Download E2E', () => {
     expect(openedAfterDialog.some((item) => item.url.includes('README_Translation.md'))).toBe(true);
     await page.getByLabel('ファイル一覧ダイアログを閉じる').click();
 
+    const metadataRequest = page.waitForRequest(
+      (request) => request.url().endsWith('/v2/files') && request.method() === 'POST',
+    );
     await page.getByLabel('Operation Black Knight のZIP をダウンロードする').click();
+    expect((await metadataRequest).postDataJSON()).toEqual({
+      paths: [
+        'UserMissions/Campaigns/Operation Black Knight/01 - Operation Black Knight - Mission 1.miz/l10n/JP/dictionary',
+        'UserMissions/Campaigns/Operation Black Knight/README_Translation.md',
+      ],
+    });
     await expect.poll(async () => (await readDownloads(page)).length).toBe(1);
     const downloads = await readDownloads(page);
     expect(downloads[0]?.download).toBe('Operation Black Knight.zip');
@@ -75,5 +84,24 @@ test.describe('Download E2E', () => {
     await page.getByLabel('Sample のZIP をダウンロードする').click();
 
     await expect(page.getByText('エラーが発生しました。')).toBeVisible();
+    expect(await readDownloads(page)).toEqual([]);
   });
+
+  for (const mode of ['API error', 'missing files'] as const) {
+    test(`ファイル情報取得の失敗時は保存しない: ${mode}`, async ({ page }) => {
+      await installAppApiMocks(page);
+      await page.route('**/v2/files', (route) =>
+        route.fulfill({
+          status: mode === 'API error' ? 404 : 200,
+          contentType: 'application/json',
+          body: JSON.stringify(mode === 'API error' ? { detail: 'Files not found' } : { files: [] }),
+        }),
+      );
+      await page.goto('/');
+      await page.getByRole('tab', { name: 'User Missions' }).click();
+      await page.getByLabel('Sample のZIP をダウンロードする').click();
+      await expect(page.getByText('エラーが発生しました。')).toBeVisible();
+      expect(await readDownloads(page)).toEqual([]);
+    });
+  }
 });

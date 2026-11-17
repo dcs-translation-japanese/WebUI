@@ -169,6 +169,15 @@ export function createPullRequestPageFromDiscriminatorValue(parseNode: ParseNode
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {QueriedFiles}
+ */
+// @ts-ignore
+export function createQueriedFilesFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoQueriedFiles;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {TreeItem}
  */
 // @ts-ignore
@@ -431,6 +440,19 @@ export function deserializeIntoPullRequestPage(pullRequestPage: Partial<PullRequ
     return {
         "items": n => { pullRequestPage.items = n.getCollectionOfObjectValues<PullRequest>(createPullRequestFromDiscriminatorValue); },
         "page": n => { pullRequestPage.page = n.getObjectValue<Page>(createPageFromDiscriminatorValue); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param QueriedFiles The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoQueriedFiles(queriedFiles: Partial<QueriedFiles> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "commitSha": n => { queriedFiles.commitSha = n.getStringValue(); },
+        "files": n => { queriedFiles.files = n.getCollectionOfObjectValues<File>(createFileFromDiscriminatorValue); },
+        "generatedAt": n => { queriedFiles.generatedAt = n.getDateValue(); },
     }
 }
 /**
@@ -773,6 +795,20 @@ export interface PullRequestPage extends Parsable {
      */
     page?: Page | null;
 }
+export interface QueriedFiles extends Parsable {
+    /**
+     * The commitSha property
+     */
+    commitSha?: string | null;
+    /**
+     * The files property
+     */
+    files?: File[] | null;
+    /**
+     * The generatedAt property
+     */
+    generatedAt?: Date | null;
+}
 /**
  * Serializes information the current object
  * @param File The instance to serialize from.
@@ -1021,6 +1057,19 @@ export function serializePullRequestPage(writer: SerializationWriter, pullReques
     if (!pullRequestPage || isSerializingDerivedType) { return; }
     writer.writeCollectionOfObjectValues<PullRequest>("items", pullRequestPage.items, serializePullRequest);
     writer.writeObjectValue<Page>("page", pullRequestPage.page, serializePage);
+}
+/**
+ * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param QueriedFiles The instance to serialize from.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeQueriedFiles(writer: SerializationWriter, queriedFiles: Partial<QueriedFiles> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!queriedFiles || isSerializingDerivedType) { return; }
+    writer.writeStringValue("commitSha", queriedFiles.commitSha);
+    writer.writeCollectionOfObjectValues<File>("files", queriedFiles.files, serializeFile);
+    writer.writeDateValue("generatedAt", queriedFiles.generatedAt);
 }
 /**
  * Serializes information the current object

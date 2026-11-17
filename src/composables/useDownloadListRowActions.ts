@@ -2,7 +2,7 @@ import { type ComputedRef, computed, ref } from 'vue';
 import { type Target, useDownloadZip } from '@/composables/useDownloadZip';
 import { toErrorMessageForDisplay } from '@/errors/errorMessage';
 import type { DownloadListRow } from '@/features/downloads/downloadListModels';
-import { buildGitHubBlobUrl, buildGitHubRawUrl } from '@/lib/githubUrl';
+import { buildGitHubBlobUrl } from '@/lib/githubUrl';
 
 type DownloadListRowActionsOptions = {
   onError: (message: string) => void;
@@ -70,13 +70,7 @@ export const useDownloadListRowActions = (options: DownloadListRowActionsOptions
    * @returns ダウンロード対象一覧を返す。
    */
   const generateDownloadTargets = (row: DownloadListRow): Target[] => {
-    return row.items.map((item): Target => {
-      const path = item.path ?? '';
-      return {
-        path,
-        url: buildGitHubRawUrl(path),
-      };
-    });
+    return row.items.map((item): Target => ({ path: item.path ?? '' }));
   };
 
   const createIssueDialogModel = computed<boolean>(() => createIssueDialogRowName.value !== null);
